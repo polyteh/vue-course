@@ -4,7 +4,7 @@
       <strong>{{ post.title }}</strong> {{ post.description }}
     </div>
     <div class="post-btn">
-      <MyButton class="general-btn" @click="$emit('removePost', post)">
+      <MyButton @click="$emit('removePost', post)">
         <template v-slot:buttonLabel> Delete post </template>
       </MyButton>
     </div>
