@@ -2,7 +2,7 @@
   <div class="app-holder">
     Base App
     <PostForm @createPost="createPost" />
-    <PostList v-bind:posts="posts"/>
+    <PostList v-bind:posts="postList"/>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import PostList from "./components/PostList.vue";
 export default {
   data() {
     return {
-      posts: [
+      postList: [
         {
           id: 1,
           title: "Olymplic Games 2020",

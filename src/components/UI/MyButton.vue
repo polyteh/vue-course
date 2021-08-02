@@ -5,10 +5,10 @@
 </template>
 <script>
 export default {
-//   name: "MyButton",
+  name: "MyButton",
   mounted() {
-    console.log(this.$slots.buttonTitle);
-    console.log(this.$slots);
+    // console.log(this.$slots.buttonTitle);
+    // console.log(this.$slots);
   },
 };
 </script>

@@ -11,7 +11,7 @@
   </div>
 </template>
 <script>
-import MyButton from "./UI/MyButton.vue";
+
 export default {
   props: {
     post: {
@@ -19,9 +19,7 @@ export default {
       requied: true,
     },
   },
-  components: {
-    MyButton,
-  },
+
 };
 </script>
 <style scoped>

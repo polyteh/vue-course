@@ -26,7 +26,6 @@
   </div>
 </template>
 <script>
-import MyButton from "./UI/MyButton.vue";
 export default {
   data() {
     return {
@@ -45,9 +44,6 @@ export default {
         description: "",
       };
     },
-  },
-  components: {
-    MyButton,
   },
 };
 </script>
