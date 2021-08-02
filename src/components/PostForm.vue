@@ -2,14 +2,12 @@
   <div class="add-post">
     <form class="add-post-form" @submit.prevent>
       <h4>Create new post</h4>
-      <input
-        class="create-post-input"
+      <MyInput
         placeholder="Enter post title"
         type="text"
         v-model="post.title"
       />
-      <input
-        class="create-post-input"
+      <MyInput
         placeholder="Enter post description"
         type="text"
         v-model="post.description"

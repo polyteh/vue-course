@@ -2,7 +2,7 @@
   <div class="app-holder">
     Base App
     <PostForm @createPost="createPost" />
-    <PostList v-bind:posts="postList"/>
+    <PostList v-bind:posts="postList" @removePost = "removePost"/>
   </div>
 </template>
 
@@ -37,13 +37,16 @@ export default {
   },
   methods: {
     createPost(post) {
-      this.posts.push(post);
+      this.postList.push(post);
     },
     inputTitle(event) {
       this.title = event.target.value;
     },
     inputDescription(event) {
       this.description = event.target.value;
+    },
+    removePost(post) {
+      this.postList = this.postList.filter((p) => p.id !== post.id);
     },
   },
 };
