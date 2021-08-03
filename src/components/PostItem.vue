@@ -5,6 +5,9 @@
       <strong>{{ post.title }}</strong> {{ post.description }}
     </div>
     <div class="post-btn">
+      <MyButton @click="$router.push(`/posts/${post.id}`)">
+        <template v-slot:buttonLabel> Open post </template>
+      </MyButton>
       <MyButton @click="$emit('removePost', post)">
         <template v-slot:buttonLabel> Delete post </template>
       </MyButton>
@@ -31,5 +34,9 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.post-btn{
+  display: flex;
+  min-width: 180px;
 }
 </style>

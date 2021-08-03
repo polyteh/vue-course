@@ -14,7 +14,7 @@ export default {
 </script>
 <style scoped>
 .general-btn {
-  margin-top: 15px;
+  /* margin-top: 15px; */
   padding: 10px;
   border: 1px solid steelblue;
   background: none;
