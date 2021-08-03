@@ -1,15 +1,18 @@
 <template>
   <div class="app-holder">
     Base App
+    <MyInput v-model="searcyQuery" placeholder="Search..."> </MyInput>
     <div class="post-buttons">
       <div>
         <MyButton @click="showDialog">
           <template v-slot:buttonLabel>Create post</template>
         </MyButton>
       </div>
-      <div>
-        <MySelect v-model="selectedSort" :options="sortOption" />
-      </div>
+      <MySelect
+        v-model="selectedSort"
+        :options="sortOption"
+        v-bind:style="{ color: 'steelblue', 'margin-top': 15 + 'px' }"
+      />
     </div>
 
     <div>
@@ -22,7 +25,18 @@
       <PostForm @createPost="createPost" />
     </CreateDialog>
     <!-- <PostForm @createPost="createPost" /> -->
-    <PostList v-bind:posts="postList" @removePost="removePost" />
+    <PostList v-bind:posts="sortedAndSearchedPosts" @removePost="removePost" />
+    <div class="page-wrapper">
+      <div
+        class="page"
+        v-for="page in totalPages"
+        :key="page"
+        :class="{ 'current-page': page === pageNumber }"
+        @click="changePage(page)"
+      >
+        {{ page }}
+      </div>
+    </div>
   </div>
 </template>
 
@@ -54,6 +68,10 @@ export default {
       showCreateDialog: false,
       modoficatorValue: "",
       selectedSort: "",
+      searcyQuery: "",
+      pageNumber: 1,
+      limit: 10,
+      totalPages: 0,
       sortOption: [
         { value: "title", name: "By Title" },
         { value: "description", name: "By Description" },
@@ -81,11 +99,25 @@ export default {
     showDialog() {
       this.showCreateDialog = true;
     },
+    changePage(page){
+      this.pageNumber = page;
+    },
     async fetchPosts() {
       try {
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?_limit=10"
+          "https://jsonplaceholder.typicode.com/posts?",
+          {
+            params: {
+              _limit: this.limit,
+              _page: this.pageNumber,
+            },
+          }
         );
+
+        this.totalPages = Math.ceil(
+          response.headers["x-total-count"] / this.limit
+        );
+
         this.postList = response.data.map((x) => {
           return {
             id: x.id,
@@ -101,11 +133,28 @@ export default {
   mounted() {
     this.fetchPosts();
   },
-  watch: {
-    selectedSort(newValue) {
-      this.postList.sort((post1, post2)=>{
-        return post1[newValue]?.localeCompare(post2[newValue]);
+  computed: {
+    sortedPosts() {
+      return [...this.postList].sort((post1, post2) => {
+        return post1[this.selectedSort]?.localeCompare(
+          post2[this.selectedSort]
+        );
       });
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter((post) =>
+        post.title.includes(this.searcyQuery)
+      );
+    },
+  },
+  watch: {
+    // selectedSort(newValue) {
+    //   this.postList.sort((post1, post2) => {
+    //     return post1[newValue]?.localeCompare(post2[newValue]);
+    //   });
+    // },
+    pageNumber(){
+            this.fetchPosts();
     },
   },
 };
@@ -125,5 +174,19 @@ export default {
 .post-buttons {
   display: flex;
   justify-content: space-between;
+}
+
+.page-wrapper {
+  display: flex;
+  margin-top: 10px;
+}
+
+.page {
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.current-page {
+  border: 2px solid steelblue;
 }
 </style>
